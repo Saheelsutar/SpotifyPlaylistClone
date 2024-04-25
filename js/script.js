@@ -67,7 +67,7 @@ document.querySelector(".songTime").innerHTML="00:00/00:00"
 }
 
 async function displayAlbums(){
-let a = await fetch(`./songs/`)
+let a = await fetch(`songs/`)
 let response= await a.text();
 let div=document.createElement('div');
 div.innerHTML=response;
@@ -75,10 +75,10 @@ let anchors=div.getElementsByTagName("a")
     let array=Array.from(anchors)
     for (let index = 0; index < array.length; index++) {
         const e = array[index];
-    if(e.href.includes("./songs") && !e.href.includes(".htaccess")){
+    if(e.href.includes("songs") && !e.href.includes(".htaccess")){
         let foldername=(e.href.split("/").slice(-2)[0]);
         //Get the metadata of the folder
-        let a = await fetch(`./songs/${foldername}/info.json`)
+        let a = await fetch(`songs/${foldername}/info.json`)
         let response= await a.json();
         let container = document.querySelector(".cardContainer");
         container.innerHTML=container.innerHTML+` <div data-folder=${foldername} class="card">
@@ -92,7 +92,7 @@ let anchors=div.getElementsByTagName("a")
                 </svg>
             </svg>
         </div>
-        <img class="rounded" src="./songs/${foldername}/cover.jpeg" alt="Image not Found">
+        <img class="rounded" src="songs/${foldername}/cover.jpeg" alt="Image not Found">
         <h3>${response.title}</h3>
         <p>${response.description}</p>
     </div>`
