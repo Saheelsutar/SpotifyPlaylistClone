@@ -102,7 +102,7 @@ let anchors=div.getElementsByTagName("a")
   //Load the playlist whenever card is clicked
   Array.from(document.getElementsByClassName("card")).forEach(e=>{
     e.addEventListener("click",async item=>{
-        songs =await getSongs(`./songs/${item.currentTarget.dataset.folder}`)
+        songs =await getSongs(`songs/${item.currentTarget.dataset.folder}`)
         playMusic(songs[0])
         var x = window.matchMedia("(max-width: 1200px)")
         if (x.matches) { 
