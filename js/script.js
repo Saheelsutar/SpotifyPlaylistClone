@@ -50,7 +50,7 @@ async function getSongs(folder) {
     // Attach an event listener to each song
     Array.from(document.querySelector(".songLists").getElementsByTagName("li")).forEach(e => {
         e.addEventListener("click", element => {
-            playMusic(e.querySelector(".info").firstElementChild.innerHTML.trim());
+            playMusic(e.querySelector(".info").firstElementChild.innerHTML.trim())
         });
     });
 
@@ -148,4 +148,53 @@ async function main() {
 
     // Add an event listener to hamburger
     document.querySelector(".hamburger").addEventListener("click", () => {
-       
+        document.querySelector(".left").style.left = "0%";
+    });
+
+    // Add an event listener to close
+    document.querySelector(".close").addEventListener("click", () => {
+        document.querySelector(".left").style.left = "-120%";
+    });
+
+    // Add an event listener to previous
+    previous.addEventListener("click", () => {
+        currentSong.pause();
+        let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
+        if ((index - 1) >= 0) {
+            playMusic(songs[index - 1]);
+        }
+    });
+
+    // Add an event listener to next
+    next.addEventListener("click", () => {
+        currentSong.pause();
+        let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
+        if ((index + 1) < songs.length) {
+            playMusic(songs[index + 1]);
+        }
+    });
+
+    let currVol;
+    // Add an event to volume
+    document.querySelector(".range").getElementsByTagName("input")[0].addEventListener("change", (e) => {
+        currentSong.volume = parseInt(e.target.value) / 100;
+        if (currentSong.volume > 0) {
+            volume.src = "https://saheelsutar.github.io/SpotifyPlaylistClone/img/vol.svg";
+        }
+    });
+
+    // Add an event listener to mute the track
+    document.querySelector("#volume").addEventListener("click", (e) => {
+        if (currentSong.volume == 0.0) {
+            currentSong.volume = 1.0;
+            document.querySelector(".range").getElementsByTagName("input")[0].value = 100;
+            volume.src = "https://saheelsutar.github.io/SpotifyPlaylistClone/img/vol.svg";
+        } else {
+            currentSong.volume = 0.0;
+            document.querySelector(".range").getElementsByTagName("input")[0].value = 0;
+            volume.src = "https://saheelsutar.github.io/SpotifyPlaylistClone/img/mute.svg";
+        }
+    });
+}
+
+main();
