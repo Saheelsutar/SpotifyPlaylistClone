@@ -22,7 +22,7 @@ async function getSongs(folder) {
     div.innerHTML = response;
     let as = div.getElementsByTagName('a');
     songs = [];
-    // Filtering of song names in the song Playlist
+    // Filtering song names in the song Playlist
     for (let index = 0; index < as.length; index++) {
         const element = as[index];
         if (element.href.endsWith(".mp3")) {
@@ -77,26 +77,28 @@ async function displayAlbums() {
     for (let index = 0; index < array.length; index++) {
         const e = array[index];
         if (e.href.includes("/songs") && !e.href.includes(".htaccess")) {
-            let foldername = (e.href.split("/").slice(-2)[0]);
-            // Get the metadata of the folder
-            let a = await fetch(`https://saheelsutar.github.io/SpotifyPlaylistClone/songs/${foldername}/info.json`);
-            let response = await a.json();
-            let container = document.querySelector(".cardContainer");
-            container.innerHTML += `<div data-folder=${foldername} class="card">
-                <div class="play">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="65" height="65">
-                        <circle cx="32.5" cy="32.5" r="32.5" fill="#1ed760" />
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="62" height="59" color="#412f2f" fill="black" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                            <g transform="translate(1, 1)">
-                                <path d="M8 5V19L19 12L8 5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
+            let foldername = e.href.split("/").slice(-2)[0];
+            if (foldername !== "") {
+                // Get the metadata of the folder
+                let a = await fetch(`https://saheelsutar.github.io/SpotifyPlaylistClone/${foldername}/info.json`);
+                let response = await a.json();
+                let container = document.querySelector(".cardContainer");
+                container.innerHTML += `<div data-folder=${foldername} class="card">
+                    <div class="play">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="65" height="65">
+                            <circle cx="32.5" cy="32.5" r="32.5" fill="#1ed760" />
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="62" height="59" color="#412f2f" fill="black" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                <g transform="translate(1, 1)">
+                                    <path d="M8 5V19L19 12L8 5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                            </svg>
                         </svg>
-                    </svg>
-                </div>
-                <img class="rounded" src="https://saheelsutar.github.io/SpotifyPlaylistClone/songs/${foldername}/cover.jpeg" alt="Image not Found">
-                <h3>${response.title}</h3>
-                <p>${response.description}</p>
-            </div>`;
+                    </div>
+                    <img class="rounded" src="https://saheelsutar.github.io/SpotifyPlaylistClone/${foldername}/cover.jpeg" alt="Image not Found">
+                    <h3>${response.title}</h3>
+                    <p>${response.description}</p>
+                </div>`;
+            }
         }
     }
 
@@ -198,3 +200,4 @@ async function main() {
 }
 
 main();
+
